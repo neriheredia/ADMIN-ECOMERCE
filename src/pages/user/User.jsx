@@ -15,6 +15,7 @@ export default function User() {
   const history = useHistory();
   const location = useLocation();
   const userId = location.pathname.split("/")[2];
+  const token = useSelector((state) => state.user.currentUser.accessToken);
   const user = useSelector((state) =>
     state.users.users.filter((u) => u._id === userId)
   );
@@ -45,14 +46,14 @@ export default function User() {
     e.preventDefault();
 
     try {
-      updateUser(dispatch, userId, inputs).then((response) => {
+      updateUser(dispatch, userId, inputs, token).then((response) => {
         history.push("/users");
       });
     } catch (err) {
       console.log(err);
     }
   };
-
+  console.log(user);
   return (
     <div className="user">
       <div className="userTitleContainer">

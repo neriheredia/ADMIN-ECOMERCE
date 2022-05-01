@@ -1,7 +1,7 @@
 import "./productList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteProduct, getProducts } from "../../redux/apiCalls";
 import { useDispatch } from "react-redux";
@@ -9,19 +9,24 @@ import { useSelector } from "react-redux";
 import Loading from "../../components/loading/Loading";
 
 export default function ProductList() {
+  const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.currentUser);
   const products = useSelector((state) => state.product.products);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProducts(dispatch).then((response) => {
+    getProducts(dispatch, user?.accessToken).then((response) => {
       setLoading(false);
     });
-  }, [products, dispatch]);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
     setLoading(true);
-    deleteProduct(id, dispatch);
+    deleteProduct(id, dispatch, user?.accessToken).then((response) => {
+      setLoading(false);
+      history.push("/products");
+    });
   };
 
   const columns = [

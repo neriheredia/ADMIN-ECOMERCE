@@ -18,11 +18,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        {!user ? (
-          <Route path="/login">
-            <Login />
-          </Route>
-        ) : (
+        <Route path="/login">
+          <Login />
+        </Route>
+        {user?.isAdmin && (
           <>
             <Topbar />
             <div className="container">

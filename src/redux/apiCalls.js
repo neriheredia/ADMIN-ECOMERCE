@@ -24,7 +24,7 @@ import {
   updateUsersSuccess,
   updateUsersFailure,
 } from "./usersReducer";
-import { publicRequest, userRequest } from "../requestMethods";
+import { publicRequest } from "../requestMethods";
 
 //LOGIN DE USUARIO
 export const login = async (dispatch, user) => {
@@ -38,10 +38,14 @@ export const login = async (dispatch, user) => {
 };
 
 //GET PRODUCT
-export const getProducts = async (dispatch) => {
+export const getProducts = async (dispatch, accessToken) => {
   dispatch(getProductStart());
   try {
-    const res = await publicRequest.get("products");
+    const res = await publicRequest.get("products", {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
     dispatch(getProductSuccess(res.data));
   } catch (err) {
     dispatch(getProductFailure());
@@ -49,10 +53,14 @@ export const getProducts = async (dispatch) => {
 };
 
 //DELETE PRODUCT
-export const deleteProduct = async (id, dispatch) => {
+export const deleteProduct = async (id, dispatch, accessToken) => {
   dispatch(deleteProductStart());
   try {
-    const res = await userRequest.delete(`products/${id}`);
+    const res = await publicRequest.delete(`products/${id}`, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
     dispatch(deleteProductSuccess(res.data));
   } catch (err) {
     dispatch(deleteProductFailure());
@@ -60,10 +68,14 @@ export const deleteProduct = async (id, dispatch) => {
 };
 
 //UPDATE PRODUCT
-export const updateProduct = async (dispatch, id, product) => {
+export const updateProduct = async (dispatch, id, product, accessToken) => {
   dispatch(updateProductStart());
   try {
-    const res = await userRequest.put(`/products/${id}`, product);
+    const res = await publicRequest.put(`/products/${id}`, product, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
     dispatch(updateProductSuccess(res.data));
   } catch (err) {
     dispatch(updateProductFailure());
@@ -71,10 +83,14 @@ export const updateProduct = async (dispatch, id, product) => {
 };
 
 //ADD PRODUCT
-export const addProduct = async (product, dispatch) => {
+export const addProduct = async (product, dispatch, accessToken) => {
   dispatch(addProductStart());
   try {
-    const res = await userRequest.post(`/products`, product);
+    const res = await publicRequest.post(`/products`, product, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
     dispatch(addProductSuccess(res.data));
   } catch (err) {
     dispatch(addProductFailure());
@@ -82,10 +98,14 @@ export const addProduct = async (product, dispatch) => {
 };
 
 //GET USERS
-export const getUsers = async (dispatch) => {
+export const getUsers = async (dispatch, accessToken) => {
   dispatch(getUsersStart());
   try {
-    const res = await userRequest.get("users");
+    const res = await publicRequest.get("users", {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
     dispatch(getUsersSuccess(res.data));
   } catch (err) {
     dispatch(getUsersFailure());
@@ -93,10 +113,14 @@ export const getUsers = async (dispatch) => {
 };
 
 //DELETE USER
-export const deleteUsers = async (id, dispatch) => {
+export const deleteUsers = async (id, dispatch, accessToken) => {
   dispatch(deleteUsersStart());
   try {
-    const res = await userRequest.delete(`users/${id}`);
+    const res = await publicRequest.delete(`users/${id}`, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
     dispatch(deleteUsersSuccess(res.data));
   } catch (err) {
     dispatch(deleteUsersFailure());
@@ -104,10 +128,14 @@ export const deleteUsers = async (id, dispatch) => {
 };
 
 //UPDATE USER
-export const updateUser = async (dispatch, id, newUsersUp) => {
+export const updateUser = async (dispatch, id, newUsersUp, accessToken) => {
   dispatch(updateUsersStart());
   try {
-    const res = await userRequest.put(`/products/${id}`, newUsersUp);
+    const res = await publicRequest.put(`/users/${id}`, newUsersUp, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
     dispatch(updateUsersSuccess(res.data));
   } catch (err) {
     dispatch(updateUsersFailure());

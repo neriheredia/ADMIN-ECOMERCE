@@ -1,15 +1,22 @@
 import "./widgetSm.css";
 import { Visibility } from "@material-ui/icons";
 import { useEffect, useState } from "react";
-import { userRequest } from "../../requestMethods";
+import { publicRequest } from "../../requestMethods";
+import { useSelector } from "react-redux";
 
 export default function WidgetSm() {
   const [users, setUsers] = useState([]);
+  const user = useSelector((state) => state.user.currentUser);
+  const token = user?.accessToken || null;
 
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const res = await userRequest.get("users/?new=true");
+        const res = await publicRequest.get("users/?new=true", {
+          headers: {
+            token: `Bearer ${token}`,
+          },
+        });
         setUsers(res.data);
       } catch (err) {}
     };

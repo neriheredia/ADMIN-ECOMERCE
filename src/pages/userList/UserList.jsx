@@ -1,25 +1,28 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers, deleteUsers } from "../../redux/apiCalls";
 import Loading from "../../components/loading/Loading";
 
 export default function UserList() {
+  const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.currentUser);
   const users = useSelector((state) => state.users.users);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getUsers(dispatch).then((response) => {
+    getUsers(dispatch, user?.accessToken).then((response) => {
       setLoading(false);
     });
   }, [dispatch]);
 
   const handleDelete = (id) => {
-    setLoading(true);
-    deleteUsers(id, dispatch);
+    deleteUsers(id, dispatch, user?.accessToken).then((response) => {
+      history.push("/");
+    });
   };
 
   const columns = [

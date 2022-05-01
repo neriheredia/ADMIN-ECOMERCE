@@ -12,7 +12,7 @@ import Chart from "../../components/chart/Chart";
 import { Publish } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
-import { userRequest } from "../../requestMethods";
+import { publicRequest } from "../../requestMethods";
 import { updateProduct } from "../../redux/apiCalls";
 
 export default function Product() {
@@ -21,6 +21,7 @@ export default function Product() {
   const history = useHistory();
 
   const productId = location.pathname.split("/")[2];
+  const token = useSelector((state) => state.user.currentUser.accessToken);
   const product = useSelector((state) =>
     state.product.products.find((product) => product._id === productId)
   );
@@ -104,8 +105,8 @@ export default function Product() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateProduct(dispatch, productUpdate.id, productUpdate).then((response) =>
-      history.push("/products")
+    updateProduct(dispatch, productUpdate.id, productUpdate, token).then(
+      (response) => history.push("/products")
     );
   };
   console.log(imgUpdate);
@@ -131,7 +132,7 @@ export default function Product() {
   useEffect(() => {
     const getStats = async () => {
       try {
-        const res = await userRequest.get("orders/income?pid=" + productId);
+        const res = await publicRequest.get("orders/income?pid=" + productId);
         const list = res.data.sort((a, b) => {
           return a._id - b._id;
         });
