@@ -1,17 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL = "https://back-ecomerce.vercel.app/api/";
-// const TOKEN =
-//   JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser
-//     .accessToken || null;
-
-// const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZDRhYWI3ZDUxNjliZWIyNTU5ZGIzYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NDUyMzI2MiwiZXhwIjoxNjQ0NzgyNDYyfQ.n16ops9xycRF_FJqKWbPQl9P6_7v3rspiPMAd7A0mxE"
+const BASE_URL = 'https://back-ecomerce.vercel.app/api/';
 
 export const publicRequest = axios.create({
   baseURL: BASE_URL,
 });
-
-// export const userRequest = axios.create({
-//   baseURL: BASE_URL,
-//   headers: { token: `Bearer ${TOKEN}` },
-// });

@@ -1,4 +1,4 @@
-import { loginFailure, loginStart, loginSuccess } from "./userRedux";
+import { loginFailure, loginStart, loginSuccess } from './userRedux';
 import {
   getProductStart,
   getProductSuccess,
@@ -12,7 +12,7 @@ import {
   addProductStart,
   addProductSuccess,
   addProductFailure,
-} from "./productReducer";
+} from './productReducer';
 import {
   getUsersStart,
   getUsersSuccess,
@@ -23,16 +23,18 @@ import {
   updateUsersStart,
   updateUsersSuccess,
   updateUsersFailure,
-} from "./usersReducer";
-import { publicRequest } from "../requestMethods";
+} from './usersReducer';
+import { publicRequest } from '../requestMethods';
 
 //LOGIN DE USUARIO
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
   try {
-    const res = await publicRequest.post("auth/login", user);
+    const res = await publicRequest.post('auth/login', user);
+    console.log({ res });
     dispatch(loginSuccess(res.data));
   } catch (err) {
+    console.log({ err });
     dispatch(loginFailure());
   }
 };
@@ -41,7 +43,7 @@ export const login = async (dispatch, user) => {
 export const getProducts = async (dispatch, accessToken) => {
   dispatch(getProductStart());
   try {
-    const res = await publicRequest.get("products", {
+    const res = await publicRequest.get('products', {
       headers: {
         token: `Bearer ${accessToken}`,
       },
@@ -101,7 +103,7 @@ export const addProduct = async (product, dispatch, accessToken) => {
 export const getUsers = async (dispatch, accessToken) => {
   dispatch(getUsersStart());
   try {
-    const res = await publicRequest.get("users", {
+    const res = await publicRequest.get('users', {
       headers: {
         token: `Bearer ${accessToken}`,
       },
